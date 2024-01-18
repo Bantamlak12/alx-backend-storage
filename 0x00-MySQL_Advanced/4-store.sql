@@ -1,4 +1,5 @@
---
+-- Creates a trigger that decreases the quantity of an item
+-- after adding a new order
 DELIMITER $$
 CREATE TRIGGER decrease_item_quantity
 AFTER INSERT
