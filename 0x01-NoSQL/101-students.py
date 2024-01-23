@@ -19,11 +19,11 @@ def top_students(mongo_collection):
     """
     pipeline = [
             {
-                "$group":
-                    {"name": "$name",
-                     "averageScore": {"$avg": "$topics.score"}
-                     }
-            },
+                "$group": {
+                    "_id": "$name",
+                    "averageScore": {"$avg": "$topics.score"}
+                    }
+                },
             {"$sort": {"averageScore": -1}}
        ]
 
