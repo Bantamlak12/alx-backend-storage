@@ -17,6 +17,5 @@ def insert_school(mongo_collection, **kwargs):
     Returns:
     - new _id
     """
-    for key, value in kwargs.items():
-        mongo_collection.insert_one({key: value})
+    return mongo_collection.insert(kwargs)
 
