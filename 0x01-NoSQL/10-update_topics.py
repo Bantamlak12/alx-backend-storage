@@ -18,7 +18,7 @@ def update_topics(mongo_collection, name, topics):
     Returns:
     - Updated document
     """
-    return mongo_collection.updateMany(
-            { name: name },
-            { $set: { topics: topics } }
+    return mongo_collection.update_many(
+            {name: name},
+            {$set: {topics: topics}}
         )
