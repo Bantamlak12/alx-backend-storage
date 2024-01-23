@@ -326,3 +326,6 @@ exit 0
 | 10. Change school topics        | [10-update_topics.py](./10-update_topics.py)           |
 | 11. Where can I learn Python?   | [11-schools_by_topic.py](./11-schools_by_topic.py)     |
 | 12. Log stats                   | [12-log_stats.py](./12-log_stats.py)                   |
+| 13. Regex filter                | [100-find](./100-find)                                 |
+| 14. Top students                | [101-students.py](./101-students.py)                   |
+| 15. Log stats - new version     | [102-log_stats.py](./102-log_stats.py)                 |
