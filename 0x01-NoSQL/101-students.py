@@ -22,8 +22,8 @@ def top_students(mongo_collection):
                 "$unwind": "$topics"
             },
             {
-                "$group": {
-                    "_id": "$name",
+                "$project": {
+                    "name": "$name",
                     "averageScore": {"$avg": "$topics.score"}
                     }
             },
