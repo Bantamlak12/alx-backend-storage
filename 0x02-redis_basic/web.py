@@ -22,7 +22,7 @@ def cache_result(function: Callable) -> Callable:
     def wrapper(url):
         redis_client = redis.Redis()
         key_count = f"count:{url}"
-        key_content = f"content: {url}"
+        key_content = f"content:{url}"
 
         redis_client.incr(key_count)
         cached_content = redis_client.get(key_content)
