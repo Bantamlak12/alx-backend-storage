@@ -47,14 +47,17 @@ def get_page(url: str) -> str:
     - (str): Content of a particular URL.
     """
     response = requests.get(url)
-    return response.text
+    return str(response.text)
 
 
-# url = "http://slowwly.robertomurray.co.uk"
-# html = get_page(url)
-# print(html)
+# For testing
+url = "http://slowwly.robertomurray.co.uk"
+for _ in range(3):
+    html = get_page(url)
+    print(html)
 
-# time.sleep(10)
+time.sleep(10)
+print("----------------------------")
 
-# html = get_page(url)
-# print(html)
+html = get_page(url)
+print(html)
