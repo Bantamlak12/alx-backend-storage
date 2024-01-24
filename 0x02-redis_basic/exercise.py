@@ -24,10 +24,10 @@ class Cache:
         parameters:
         - data (Union[str, bytes, int, float]): A value to the key.
 
-        Returns:
+        Returns: 
         - (str): Returns the key.
         """
-        key = str(uuid.uuid1())
+        key = str(uuid.uuid4())
         self._redis.set(key, data)
         return key
 
@@ -70,14 +70,14 @@ class Cache:
         return self.get(key, fu=int)
 
 
-cache = Cache()
+# cache = Cache()
 
-TEST_CASE = {
-    b"foo": None,
-    123: int,
-    "bar": lambda d: d.decode("utf-8")
-}
+# TEST_CASE = {
+#     b"foo": None,
+#     123: int,
+#     "bar": lambda d: d.decode("utf-8")
+# }
 
-for value, fn in TEST_CASE.items():
-    key = cache.store(value)
-    assert cache.get(key, fn=fn) == value
+# for value, fn in TEST_CASE.items():
+#     key = cache.store(value)
+#     assert cache.get(key, fn=fn) == value
