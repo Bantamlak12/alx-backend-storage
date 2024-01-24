@@ -7,6 +7,24 @@ Writing a string to Redis
 import redis
 import uuid
 from typing import Union, Callable
+from functools import wraps
+
+
+def count_calls(method: Callable) -> Callable:
+    """
+    parameters:
+    - method (Callable): The method to be decorated
+
+    Returns:
+    - Callable: The decorated method
+    """
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        key = method.__qualname__
+        count_key = key
+        self._redis.incr(count_key)
+        return method(self, *args, **kwargs)
+    return wrapper
 
 
 class Cache:
@@ -19,12 +37,13 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         parameters:
         - data (Union[str, bytes, int, float]): A value to the key.
 
-        Returns: 
+        Returns:
         - (str): Returns the key.
         """
         key = str(uuid.uuid4())
