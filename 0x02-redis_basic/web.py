@@ -51,13 +51,13 @@ def get_page(url: str) -> str:
 
 
 # For testing
-url = "http://slowwly.robertomurray.co.uk"
-for _ in range(3):
-    html = get_page(url)
-    print(html)
+# url = "http://slowwly.robertomurray.co.uk"
+# for _ in range(3):
+#     html = get_page(url)
+#     print(html)
 
-time.sleep(10)
-print("----------------------------")
+# time.sleep(10)
+# print("----------------------------")
 
-html = get_page(url)
-print(html)
+# html = get_page(url)
+# print(html)
