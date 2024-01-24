@@ -68,7 +68,7 @@ def replay(method: Callable):
 
     num_calls = len(inputs)
 
-    print("{} was called {} times".format(method.__qualname__, num_calls))
+    print("{} was called {} times:".format(method.__qualname__, num_calls))
     for inp, out in zip(inputs, outputs):
         input_k = inp.decode("utf-8")
         output_k = out.decode("utf-8")
