@@ -53,6 +53,28 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
+def replay(method: Callable):
+    """
+    parameters:
+    - method (Callable): A method where a history of calls will
+    be displayed.
+    """
+    redis_client = redis.Redis()
+    inputs_key = method.__qualname__ + ":inputs"
+    outputs_key = method.__qualname__ + ":outputs"
+
+    inputs = redis_client.lrange(inputs_key, 0, -1)
+    outputs = redis_client.lrange(outputs_key, 0, -1)
+
+    num_calls = len(inputs)
+
+    print("{} was called {} times".format(method.__qualname__, num_calls))
+    for inp, out in zip(inputs, outputs):
+        input_k = inp.decode("utf-8")
+        output_k = out.decode("utf-8")
+        print("{}(*{}) -> {}".format(method.__qualname__, input_k, output_k))
+
+
 class Cache:
     """ Writing strings to Redis """
     def __init__(self):
@@ -116,6 +138,7 @@ class Cache:
         return self.get(key, fu=int)
 
 
+# For task 1
 # cache = Cache()
 
 # TEST_CASE = {
@@ -127,3 +150,11 @@ class Cache:
 # for value, fn in TEST_CASE.items():
 #     key = cache.store(value)
 #     assert cache.get(key, fn=fn) == value
+
+# For task 4
+# from exercise import Cache, replay
+# cache = Cache()
+# cache.store("foo")
+# cache.store("bar")
+# cache.store(42)
+# replay(cache.store)
