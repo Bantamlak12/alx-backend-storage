@@ -8,7 +8,6 @@ from functools import wraps
 from typing import Callable
 import requests
 import redis
-import time
 
 # Expiration time in sec
 time_to_expire_s = 10
@@ -16,24 +15,27 @@ time_to_expire_s = 10
 
 def cache_result(function: Callable) -> Callable:
     """
-    function (Callable)
+    A decorator that implements an expiring to a web cache and
+    tracks number of time a particular URL was accessed.
     """
     @wraps(function)
     def wrapper(url):
-        redis_client = redis.Redis()
-        key_count = f"count:{url}"
-        key_content = f"content:{url}"
+        """ Wrapper """
+        client = redis.Redis()
 
-        redis_client.incr(key_count)
-        cached_content = redis_client.get(key_content)
-        if cached_content is not None:
+        # Cache content
+        key = "content:" + url
+        cached_content = client.get(key)
+        if cached_content:
             return cached_content.decode("utf-8")
-        else:
-            response = function(url)
 
-        redis_client.setex(key_content, time_to_expire_s, response)
+        # Updated cache content
+        key_count = "count:" + url
+        html = function(url)
+        client.incr(key_count)
+        client.setex(key, time_to_expire_s, html)
 
-        return response
+        return html
     return wrapper
 
 
@@ -47,17 +49,4 @@ def get_page(url: str) -> str:
     - (str): Content of a particular URL.
     """
     response = requests.get(url)
-    return str(response.text)
-
-
-# For testing
-# url = "http://slowwly.robertomurray.co.uk"
-# for _ in range(3):
-#     html = get_page(url)
-#     print(html)
-
-# time.sleep(10)
-# print("----------------------------")
-
-# html = get_page(url)
-# print(html)
+    return response.text
