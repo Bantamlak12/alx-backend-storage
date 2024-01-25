@@ -9,9 +9,6 @@ from typing import Callable
 import requests
 import redis
 
-# Expiration time in sec
-time_to_expire_s = 10
-
 
 def cache_result(function: Callable) -> Callable:
     """
@@ -31,9 +28,9 @@ def cache_result(function: Callable) -> Callable:
 
         # Updated cache content
         key_count = "count:" + url
-        html = function(url)
         client.incr(key_count)
-        client.set(key, html, ex=time_to_expire_s)
+        html = function(url)
+        client.set(key, html, ex=10)
 
         return html
     return wrapper
