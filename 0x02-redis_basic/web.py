@@ -33,7 +33,7 @@ def cache_result(function: Callable) -> Callable:
         key_count = "count:" + url
         html = function(url)
         client.incr(key_count)
-        client.setex(key, time_to_expire_s, html)
+        client.set(key, html, ex=time_to_expire_s)
 
         return html
     return wrapper
